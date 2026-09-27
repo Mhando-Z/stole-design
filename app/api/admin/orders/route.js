@@ -1,0 +1,3 @@
+import { NextResponse } from 'next/server';
+import { adminClient,requireAdmin } from '@/lib/supabase';
+export async function GET(req){try{if(!await requireAdmin(req))return NextResponse.json({error:'Unauthorized'},{status:401});const status=new URL(req.url).searchParams.get('status');let query=adminClient().from('orders').select('*').order('created_at',{ascending:false}).limit(200);if(status&&status!=='all')query=query.eq('status',status);const {data,error}=await query;if(error)throw error;return NextResponse.json({orders:data});}catch(e){console.error(e);return NextResponse.json({error:'Could not load orders'},{status:500});}}

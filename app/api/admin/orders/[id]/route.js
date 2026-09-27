@@ -1,0 +1,4 @@
+import { NextResponse } from 'next/server';
+import { adminClient,requireAdmin } from '@/lib/supabase';
+const allowed=['new','reviewing','quoted','in_production','ready','delivered','cancelled'];
+export async function PATCH(req,{params}){try{if(!await requireAdmin(req))return NextResponse.json({error:'Unauthorized'},{status:401});const {id}=await params;const {status,internalNotes}=await req.json();if(!allowed.includes(status)||typeof internalNotes!=='string'||internalNotes.length>3000)return NextResponse.json({error:'Invalid update'},{status:400});const {data,error}=await adminClient().from('orders').update({status,internal_notes:internalNotes,updated_at:new Date().toISOString()}).eq('id',id).select().single();if(error)throw error;return NextResponse.json({order:data});}catch(e){console.error(e);return NextResponse.json({error:'Could not save changes'},{status:500});}}

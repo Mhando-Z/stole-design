@@ -1,0 +1,3 @@
+import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
+export default function Nav(){return <header className="masthead"><Link className="masthead-brand" href="/" aria-label="Stole Studio homepage"><span className="brand-signet">S<span>✳</span></span><span>STOLE<br/>STUDIO<small>GRADUATION ATELIER</small></span></Link><nav aria-label="Primary navigation"><Link href="/#collection">The collection</Link><Link href="/#craft">Our process</Link><Link href="/#about">Our story</Link></nav><Link href="/design" className="masthead-link">OPEN THE STUDIO <ArrowUpRight size={17}/></Link><Link href="/design" className="masthead-mobile" aria-label="Open designer"><ArrowUpRight size={21}/></Link></header>}
